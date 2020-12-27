@@ -1,6 +1,6 @@
 # README #
 
-This repository can be used to write code that links to both SCOREC/core and MFEM libraries and meant to be used the finite element course assignments/projects.
+This repository can be used to write code that links to both SCOREC/core and MFEM libraries and is meant to be used for the finite element course assignments/projects.
 
 ### What is this repository for? ###
 
@@ -39,6 +39,6 @@ You can write your own code and use the same build system to build the correspon
 
 1. put the source file `main.cpp` in the root directory of this repository
 2. add the following line to the file `CMakeLists.txt`
-`setup_exe(my_exec main.cpp)` after the line that says (__## executables that do not use simmetrix go here__) if your code does not depend on simmetrix or after the line that says (__## executables that do     use simmetrix go here__) if your code does depend on simmetrix.
+`setup_exe(my_exec main.cpp)` after the line that says (__executables that do not use simmetrix go here__) if your code does not depend on simmetrix or after the line that says (__executables that do     use simmetrix go here__) if your code does depend on simmetrix.
 3. repeat the build process mentioned earlier
 4. if successful you should see the executable `my_exec` under your `build` directory
