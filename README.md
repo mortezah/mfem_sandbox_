@@ -19,9 +19,9 @@ Assuming you are at the root source directory, follow these steps
 1. `mkdir build`
 2. `cd build`
 3. `export PUMIPATH=path_to_pumi_install`, where __path_to_pumi_install__ is the path to the installation of SCOREC/core
-3. `export MFEMPATH=path_to_mfem_install`, where __path_to_mfem_install__ is the path to the installation of MFEM
-*  `source ../config.sh`
-*  `make`
+4. `export MFEMPATH=path_to_mfem_install`, where __path_to_mfem_install__ is the path to the installation of MFEM
+5.  `source ../config.sh`
+6.  `make`
 
 If the above process is successful you should see the executables `pumi_2_mfem` and `mfem_2_vtk`. You can test them as follows (assuming you are still in the `build` folder)
 
