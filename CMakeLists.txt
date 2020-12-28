@@ -81,7 +81,7 @@ setup_exe(mfem_2_vtk mfem_2_vtk.cpp)
 
 if(ENABLE_SIMMETRIX)
 ## executables that do     use simmetrix go here
-  setup_exe(pumi_2_mfem pumi_2_mfem.cc)
+  setup_exe(pumi_2_mfem pumi_2_mfem.cpp)
 endif()
 
 bob_end_package()
