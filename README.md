@@ -2,13 +2,6 @@
 
 This repository can be used to write code that links to both SCOREC/core and MFEM libraries and is meant to be used for the finite element course assignments/projects.
 
-### What is this repository for? ###
-
-* environment setup script
-* cmake config script
-* example codes using both SCOREC/core and MFEM libraries
-* blank .cpp and .hpp files corresponding to the assignment
-
 ### Build Instructions ###
 
 Note: the following build instructions are only tested on SCOREC workstations, and they can be modified for other systems (e.g., your personal computer).
@@ -42,3 +35,12 @@ You can write your own code and use the same build system to build the correspon
 `setup_exe(my_exec main.cpp)` after the line that says (__executables that do not use simmetrix go here__) if your code does not depend on simmetrix or after the line that says (__executables that do     use simmetrix go here__) if your code does depend on simmetrix.
 3. repeat the build process mentioned earlier
 4. if successful you should see the executable `my_exec` under your `build` directory
+
+
+### What is in this repository ###
+
+* folder _data_ includes the mesh/model files that will be used alongside this repo
+* the source code _pumi_2_mfem.cpp_ loads a pumi mesh and converts it to an mfem mesh
+* the source code _mfem_2_vtk.cpp_ loads an mfem mesh and writes it to vtk for visualization
+* the header _LagrangeElements.hpp_ contains all the necessary pieces for Lagrange Shape Functions that will be completed by students for the assignment
+* the sources _lagrange_elems_projection_test.cpp_, _lagrange_elems_interpolation_test.cpp_, and _lagrange_elems_laplace_solve_test.cpp_ used the header _LagrangeElements.hpp_ to test the implementation of the Lagrange Shapes
