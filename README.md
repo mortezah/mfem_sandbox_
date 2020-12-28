@@ -43,4 +43,4 @@ You can write your own code and use the same build system to build the correspon
 * the source code _pumi_2_mfem.cpp_ loads a pumi mesh and converts it to an mfem mesh
 * the source code _mfem_2_vtk.cpp_ loads an mfem mesh and writes it to vtk for visualization
 * the header _LagrangeElements.hpp_ contains all the necessary pieces for Lagrange Shape Functions that will be completed by students for the assignment
-* the sources _lagrange_elems_projection_test.cpp_, _lagrange_elems_interpolation_test.cpp_, and _lagrange_elems_laplace_solve_test.cpp_ used the header _LagrangeElements.hpp_ to test the implementation of the Lagrange Shapes
+* the sources _lagrange_elems_projection_test.cpp_, _lagrange_elems_interpolation_test.cpp_, and _lagrange_elems_laplace_solve_test.cpp_ use the header _LagrangeElements.hpp_ to test the implementation of the Lagrange Shapes
