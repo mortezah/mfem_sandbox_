@@ -23,6 +23,21 @@ public:
       DenseMatrix &dshape) const;
 };
 
+class LG_QuadrilateralElement : public NodalTensorFiniteElement
+{
+public:
+  LG_QuadrilateralElement(
+      const int p,
+      const int btype = BasisType::GaussLobatto);
+  virtual void CalcShape(
+      const IntegrationPoint &ip,
+      Vector &shape) const;
+  virtual void CalcDShape(
+      const IntegrationPoint &ip,
+      DenseMatrix &dshape) const;
+};
+
+
 class LG_TriangleElement : public NodalFiniteElement
 {
 public:
@@ -142,6 +157,139 @@ void LG_SegmentElement::CalcDShape(
   {
     MFEM_VERIFY(0, "unimplemented order");
   }
+}
+
+// LG_QuadrilateralElement implementation
+LG_QuadrilateralElement::LG_QuadrilateralElement(
+    const int p,
+    const int btype)
+   : NodalTensorFiniteElement(2, p, VerifyClosed(btype), H1_DOF_MAP)
+{
+  const double *cp = poly1d.ClosedPoints(p, b_type);
+
+  int o = 0;
+  for (int j = 0; j <= p; j++)
+    for (int i = 0; i <= p; i++)
+      Nodes.IntPoint(dof_map[o++]).Set2(cp[i], cp[j]);
+}
+
+void LG_QuadrilateralElement::CalcShape(
+    const IntegrationPoint &ip,
+    Vector &shape) const
+{
+  const int p = order;
+
+  // Note: In MFEM quads are defined on [0,1]x[0,1]
+  //       Nodes for 1st order quads are as follows
+  //       node 0: (0,0)
+  //       node 1: (1,0)
+  //       node 2: (1,1)
+  //       node 3: (0,1)
+  //
+  //       Nodes for 2nd order quads are as follows
+  //       node 0: (0,0)
+  //       node 1: (1,0)
+  //       node 2: (1,1)
+  //       node 3: (0,1)
+  //       node 4: (1/2,0)
+  //       node 5: (1,1/2)
+  //       node 6: (1/2,1)
+  //       node 7: (0,1/2)
+  //       node 8: (1/2,1/2)
+  if (p == 1)
+  {
+    // TODO: implement 1st order shapes for quads
+    shape(0) = 0.;
+    shape(1) = 0.;
+    shape(2) = 0.;
+    shape(3) = 0.;
+  }
+  else if (p == 2)
+  {
+    // TODO: implement 2st order shapes for quads (9-nodes)
+    shape(0) = 0.;
+    shape(1) = 0.;
+    shape(2) = 0.;
+    shape(3) = 0.;
+    shape(4) = 0.;
+    shape(5) = 0.;
+    shape(6) = 0.;
+    shape(7) = 0.;
+    shape(8) = 0.;
+  }
+  else
+  {
+    MFEM_VERIFY(0, "unimplemented order");
+  }
+
+}
+
+void LG_QuadrilateralElement::CalcDShape(
+    const IntegrationPoint &ip,
+    DenseMatrix &dshape) const
+{
+  const int p = order;
+
+  // Note: In MFEM quads are defined on [0,1]x[0,1]
+  //       Nodes for 1st order quads are as follows
+  //       node 0: (0,0)
+  //       node 1: (1,0)
+  //       node 2: (1,1)
+  //       node 3: (0,1)
+  //
+  //       Nodes for 2nd order quads are as follows
+  //       node 0: (0,0)
+  //       node 1: (1,0)
+  //       node 2: (1,1)
+  //       node 3: (0,1)
+  //       node 4: (1/2,0)
+  //       node 5: (1,1/2)
+  //       node 6: (1/2,1)
+  //       node 7: (0,1/2)
+  //       node 8: (1/2,1/2)
+  if (p == 1)
+  {
+    // TODO: implement derivative of 1st order shapes for quads wrt ip.x
+    dshape(0,0) = 0.;
+    dshape(1,0) = 0.;
+    dshape(2,0) = 0.;
+    dshape(3,0) = 0.;
+
+    // TODO: implement derivative of 1st order shapes for quads wrt ip.y
+    dshape(0,1) = 0.;
+    dshape(1,1) = 0.;
+    dshape(2,1) = 0.;
+    dshape(3,1) = 0.;
+  }
+  else if (p == 2)
+  {
+    // TODO: implement derivative of 2nd order shapes for quads wrt ip.x
+    dshape(0,0) = 0.;
+    dshape(1,0) = 0.;
+    dshape(2,0) = 0.;
+    dshape(3,0) = 0.;
+    dshape(4,0) = 0.;
+    dshape(5,0) = 0.;
+    dshape(6,0) = 0.;
+    dshape(7,0) = 0.;
+    dshape(8,0) = 0.;
+
+    // TODO: implement derivative of 2nd order shapes for quads wrt ip.y
+    dshape(0,1) = 0.;
+    dshape(1,1) = 0.;
+    dshape(2,1) = 0.;
+    dshape(3,1) = 0.;
+    dshape(4,1) = 0.;
+    dshape(5,1) = 0.;
+    dshape(6,1) = 0.;
+    dshape(7,1) = 0.;
+    dshape(8,1) = 0.;
+  }
+  else
+  {
+    MFEM_VERIFY(0, "unimplemented order");
+  }
+
 }
 
 
@@ -316,7 +464,9 @@ LG_FECollection::LG_FECollection(const int p, const int dim, const int btype)
   if (dim >= 2)
   {
     LG_dof[Geometry::TRIANGLE] = (pm1*pm2)/2;
+    LG_dof[Geometry::SQUARE] = pm1*pm1;
     LG_Elements[Geometry::TRIANGLE] = new LG_TriangleElement(p, btype);
+    LG_Elements[Geometry::SQUARE] = new LG_QuadrilateralElement(p, btype);
 
     const int &TriDof = LG_dof[Geometry::TRIANGLE];
     TriDofOrd[0] = new int[6*TriDof];
@@ -339,6 +489,36 @@ LG_FECollection::LG_FECollection(const int p, const int dim, const int btype)
         TriDofOrd[5][o] = TriDof - ((pm1-i)*(pm2-i))/2 + j;  // (0,2,1)
       }
     }
+
+    const int &QuadDof = LG_dof[Geometry::SQUARE];
+    QuadDofOrd[0] = new int[8*QuadDof];
+    for (int i = 1; i < 8; i++)
+    {
+      QuadDofOrd[i] = QuadDofOrd[i-1] + QuadDof;
+    }
+
+    if (b_type == BasisType::Serendipity)
+    {
+      MFEM_VERIFY(0, "unimplemented quad type");
+    }
+    else // not serendipity
+    {
+      for (int j = 0; j < pm1; j++)
+      {
+        for (int i = 0; i < pm1; i++)
+        {
+          int o = i + j*pm1;
+          QuadDofOrd[0][o] = i + j*pm1;  // (0,1,2,3)
+          QuadDofOrd[1][o] = j + i*pm1;  // (0,3,2,1)
+          QuadDofOrd[2][o] = j + (pm2 - i)*pm1;  // (1,2,3,0)
+          QuadDofOrd[3][o] = (pm2 - i) + j*pm1;  // (1,0,3,2)
+          QuadDofOrd[4][o] = (pm2 - i) + (pm2 - j)*pm1;  // (2,3,0,1)
+          QuadDofOrd[5][o] = (pm2 - j) + (pm2 - i)*pm1;  // (2,1,0,3)
+          QuadDofOrd[6][o] = (pm2 - j) + i*pm1;  // (3,0,1,2)
+          QuadDofOrd[7][o] = i + (pm2 - j)*pm1;  // (3,2,1,0)
+        }
+      }
+    }
   }
 }
 
@@ -353,6 +533,10 @@ const int *LG_FECollection::DofOrderForOrientation(
   else if (GeomType == Geometry::TRIANGLE)
   {
     return TriDofOrd[Or%6];
+  }
+  else if (GeomType == Geometry::SQUARE)
+  {
+    return QuadDofOrd[Or%8];
   }
   return NULL;
 }
